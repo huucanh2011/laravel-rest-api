@@ -18,6 +18,11 @@ class Controller extends BaseController
         return ResponseBuilder::asSuccess()->withData($data)->withMessage($msg)->build();
     }
 
+    public function respondNoContent()
+    {
+        return response()->noContent();
+    }
+
     public function respondWithMessage($msg)
     {
         return ResponseBuilder::asSuccess()->withMessage($msg)->build();

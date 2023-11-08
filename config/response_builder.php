@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\ApiCode;
+
 /**
  * Laravel API Response Builder - configuration file
  *
@@ -32,7 +34,11 @@ return [
     |-------------------------------------------------------------------------------------------------------------------
     */
     'map' => [
-        //         YOUR_API_CODE => '<MESSAGE_LOCALISATION_KEY>',
+        ApiCode::SOMETHING_WENT_WRONG => 'api.something_went_wrong',
+        ApiCode::INVALID_CREDENTIALS => 'api.invalid_credentials',
+        ApiCode::VALIDATION_ERROR => 'api.validation_error',
+        ApiCode::INVALID_RESET_PASSWORD_OTP => 'api.invalid_reset_password_otp',
+        ApiCode::UNAUTHORIZED => 'api.unauthorized',
     ],
 
     /*

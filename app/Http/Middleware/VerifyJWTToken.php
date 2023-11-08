@@ -21,7 +21,7 @@ class VerifyJWTToken
         $token = JWTAuth::parseToken();
         $user = $token->authenticate();
 
-        if ($user && (isset($roles) || (isset($roles) && in_array($user->role, $roles)))) {
+        if ($user && (! isset($roles) || (isset($roles) && in_array($user->role, $roles)))) {
             return $next($request);
         }
 

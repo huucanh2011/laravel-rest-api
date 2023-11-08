@@ -17,7 +17,7 @@ trait UserActionTracking
         });
 
         static::updating(function ($model) {
-            if (! $model->isDirty('update_by')) {
+            if (! $model->isDirty('updated_by')) {
                 $model->updated_by = is_null(auth()->user()) ? null : auth()->user()->email;
             }
         });

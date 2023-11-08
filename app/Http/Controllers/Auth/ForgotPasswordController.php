@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\ChangePasswordRequest;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Services\Auth\AuthServiceInterface;
 
-class NewPasswordController extends Controller
+class ForgotPasswordController extends Controller
 {
     private AuthServiceInterface $authService;
 
@@ -16,10 +16,10 @@ class NewPasswordController extends Controller
     }
 
     /**
-     * Handle an incoming new password request.
+     * Handle an incoming password reset link request.
      */
-    public function store(ChangePasswordRequest $request)
+    public function store(ForgotPasswordRequest $request)
     {
-        return $this->authService->resetPassword($request);
+        return $this->authService->forgotPassword($request);
     }
 }

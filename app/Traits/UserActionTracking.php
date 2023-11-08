@@ -12,19 +12,19 @@ trait UserActionTracking
     {
         static::creating(function ($model) {
             if (! $model->isDirty('created_by')) {
-                $model->created_by = auth()->user()->email;
+                $model->created_by = is_null(auth()->user()) ? null : auth()->user()->email;
             }
         });
 
         static::updating(function ($model) {
             if (! $model->isDirty('update_by')) {
-                $model->update_by = auth()->user()->email;
+                $model->updated_by = is_null(auth()->user()) ? null : auth()->user()->email;
             }
         });
 
         static::deleting(function ($model) {
             if (! $model->isDirty('deleted_by')) {
-                $model->deleted_by = auth()->user()->email;
+                $model->deleted_by = is_null(auth()->user()) ? null : auth()->user()->email;
                 $model->save();
             }
         });

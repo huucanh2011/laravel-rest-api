@@ -31,7 +31,7 @@ class VerifyJWTToken
     private function respondWithJWTError(int $errorCode)
     {
         return ResponseBuilder::asError($errorCode)
-            ->withHttpCode(Response::HTTP_BAD_REQUEST)
+            ->withHttpCode(Response::HTTP_UNAUTHORIZED)
             ->build();
     }
 }

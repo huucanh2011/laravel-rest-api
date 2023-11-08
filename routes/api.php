@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,5 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
-Route::group(['middleware' => 'auth:jwt'], function () {
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('/users', function () {
+        return User::all();
+    });
 });

@@ -27,8 +27,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Throwable $e, $request) {
+            return (new JWTExceptionHandler($this->container))->render($request, $e);
         });
     }
 

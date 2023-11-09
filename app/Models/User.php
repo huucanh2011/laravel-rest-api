@@ -2,18 +2,22 @@
 
 namespace App\Models;
 
-use App\Traits\UserActionTracking;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
 {
-    use HasUuids;
+    use Authenticatable;
+    use Authorizable;
+    use CanResetPassword;
     use Notifiable;
-    use UserActionTracking;
 
     /**
      * The attributes that are mass assignable.

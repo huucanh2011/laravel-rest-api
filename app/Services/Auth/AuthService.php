@@ -5,22 +5,54 @@ namespace App\Services\Auth;
 use App\ApiCode;
 use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Traits\ResponseApi;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService implements AuthServiceInterface
 {
     use ResponseApi;
 
-    private UserRepositoryInterface $userRepository;
+    public function __construct(
+        private UserRepositoryInterface $userRepository,
+        private PasswordResetRepositoryInterface $passwordResetRepository
+    ) {
+    }
 
-    private PasswordResetRepositoryInterface $passwordResetRepository;
-
-    public function __construct(UserRepositoryInterface $userRepository, PasswordResetRepositoryInterface $passwordResetRepository)
+    public function login(LoginRequest $request)
     {
-        $this->userRepository = $userRepository;
-        $this->passwordResetRepository = $passwordResetRepository;
+        if (! $token = JWTAuth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            return $this->respondUnAuthorizedRequest(ApiCode::INVALID_CREDENTIALS);
+        }
+
+        return $this->respondWithToken($token);
+    }
+
+    public function logout()
+    {
+        JWTAuth::invalidate(JWTAuth::parseToken());
+
+        return $this->respondWithMessage('User successfully logged out');
+    }
+
+    public function refreshToken()
+    {
+        return $this->respondWithToken(JWTAuth::refresh());
+    }
+
+    public function getCurrentUser()
+    {
+        return $this->respond(JWTAuth::user());
+    }
+
+    private function respondWithToken($token)
+    {
+        return $this->respond([
+            'access_token' => $token,
+            'expires_in' => JWTAuth::factory()->getTTL() * 60,
+        ], 'Login Successful');
     }
 
     public function forgotPassword(ForgotPasswordRequest $request)

@@ -8,11 +8,9 @@ use App\Services\Auth\AuthServiceInterface;
 
 class ForgotPasswordController extends Controller
 {
-    private AuthServiceInterface $authService;
-
-    public function __construct(AuthServiceInterface $authService)
-    {
-        $this->authService = $authService;
+    public function __construct(
+        private AuthServiceInterface $authService
+    ) {
     }
 
     /**

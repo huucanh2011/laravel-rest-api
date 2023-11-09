@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RoleEnum;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -50,6 +51,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      */
     protected $casts = [
         'password' => 'hashed',
+        'role' => RoleEnum::class,
     ];
 
     /**
@@ -74,5 +76,10 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function getRoleNameAttribute()
+    {
+        return $this->role->label();
     }
 }

@@ -18,6 +18,6 @@ require __DIR__ . '/auth.php';
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/users', function () {
-        return User::all();
+        return response()->json(['data' => User::all()]);
     });
 });

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Http\Controllers\User\SearchUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +17,5 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::get('/users', function () {
-        return response()->json(['data' => User::all()]);
-    });
+    Route::get('/users', SearchUserController::class);
 });

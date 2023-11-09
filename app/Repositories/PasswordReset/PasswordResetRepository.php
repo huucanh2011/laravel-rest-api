@@ -2,6 +2,7 @@
 
 namespace App\Repositories\PasswordReset;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -27,7 +28,7 @@ class PasswordResetRepository implements PasswordResetRepositoryInterface
             'id' => Str::uuid(),
             'email' => $email,
             'otp' => $otp,
-            'created_at' => now(),
+            'created_at' => Carbon::now(config('app.timezone')),
         ]);
     }
 
@@ -36,7 +37,7 @@ class PasswordResetRepository implements PasswordResetRepositoryInterface
         $otp = rand(10000, 99999);
         DB::table($this->table)->where('email', $email)->update([
             'otp' => $otp,
-            'updated_at' => now(),
+            'updated_at' => Carbon::now(config('app.timezone')),
         ]);
 
         return $otp;

@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->string('phone_number');
             $table->string('password');
-            $table->timestamp('created_at')->nullable();
+            $table->timestampTz('created_at')->nullable();
             $table->string('created_by', 100)->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->timestampTz('updated_at')->nullable();
             $table->string('updated_by', 100)->nullable();
-            $table->softDeletes();
+            $table->softDeletesTz();
             $table->string('deleted_by', 100)->nullable();
         });
     }

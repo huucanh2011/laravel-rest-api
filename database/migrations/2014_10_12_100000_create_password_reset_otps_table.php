@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('email', 100);
             $table->integer('otp');
-            $table->timestamps();
+            $table->timestampsTz();
         });
     }
 

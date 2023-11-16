@@ -6,5 +6,6 @@
 files=$(git diff --cached --name-only --diff-filter=AMCR | grep "\.php$")
 if echo "$files" | grep --quiet "\.php$"; then
     echo "Running Laravel Pint..."
-    ./vendor/bin/pint $files && git add $files
+    docker compose exec -T app composer pint-fix $files
+    git add $files
 fi

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\User\SearchUserController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::get('/users', SearchUserController::class);
+    Route::apiResource('/users', UserController::class)->parameter('users', 'id');
     Route::post('/image', ImageController::class);
 });

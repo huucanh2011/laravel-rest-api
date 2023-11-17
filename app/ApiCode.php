@@ -17,4 +17,6 @@ class ApiCode
     public const EMAIL_NOT_FOUND = 255;
 
     public const SEND_FORGOT_PASSWORD_SUCCESS = 256;
+
+    public const RESOURCE_NOT_FOUND = 404;
 }

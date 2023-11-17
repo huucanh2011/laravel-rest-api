@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Constants;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 
 abstract class BaseRepository implements BaseRepositoryInterface
@@ -68,7 +70,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @param int $paginate
      * @return mixed
      */
-    public function paginate($orderBy = 'name', array $relations = [], $paginate = 50, array $parameters = [])
+    public function paginate($orderBy = 'name', array $relations = [], $paginate = Constants::PAGE_SIZE_DEFAULT, array $parameters = [])
     {
         $instance = $this->getQueryBuilder();
 
@@ -153,11 +155,15 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @param int|string $id
      * @return mixed
      */
-    public function find($id, array $relations = [])
+    public function findOrFail($id, array $relations = [])
     {
-        $this->instance = $this->getQueryBuilder()->with($relations)->find($id);
+        try {
+            $this->instance = $this->getQueryBuilder()->with($relations)->findOrFail($id);
 
-        return $this->instance;
+            return $this->instance;
+        } catch (ModelNotFoundException $ex) {
+            $this->instance = null;
+        }
     }
 
     /**
@@ -224,9 +230,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
      */
     public function update($id, array $data)
     {
-        $this->instance = $this->find($id);
+        $this->instance = $this->findOrFail($id);
 
-        return $this->executeSave($data);
+        return is_null($this->instance) ? null : $this->executeSave($data);
     }
 
     /**
@@ -250,9 +256,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
      */
     public function destroy($id)
     {
-        $instance = $this->find($id);
+        $instance = $this->findOrFail($id);
 
-        return $instance->delete();
+        return is_null($instance) ? null : $instance->delete();
     }
 
     /**

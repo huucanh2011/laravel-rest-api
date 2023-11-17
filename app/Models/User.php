@@ -11,7 +11,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Scout\Searchable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
@@ -20,7 +19,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     use Authorizable;
     use CanResetPassword;
     use Notifiable;
-    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -85,13 +83,8 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->role->label();
     }
 
-    public function toSearchableArray()
+    public function scopeIsAdmin($query)
     {
-        return [
-            'name' => '',
-            'address' => '',
-            'email' => '',
-            'phone_number' => '',
-        ];
+        return $query->where('role', RoleEnum::ADMINISTRATOR->value);
     }
 }

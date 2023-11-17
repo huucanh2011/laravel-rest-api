@@ -54,7 +54,7 @@ interface BaseRepositoryInterface
      * @param int|string $id
      * @return mixed
      */
-    public function find($id, array $relations = []);
+    public function findOrFail($id, array $relations = []);
 
     /**
      * Find a single record y a field and value

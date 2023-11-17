@@ -11,4 +11,7 @@ enum RoleEnum: int
 
     #[Label('Admin')]
     case ADMINISTRATOR = 0;
+
+    #[Label('HR')]
+    case HR = 1;
 }

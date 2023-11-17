@@ -67,7 +67,6 @@ COPY . .
 RUN composer install --ignore-platform-req=ext-session --ignore-platform-req=ext-sodium
 RUN chown -R nobody:nobody /var/www/html/storage
 RUN chmod +x /var/lib/nginx -R
-RUN chmod +x .hooks/pre-commit -R
 
 EXPOSE 80
 CMD [ "supervisord", "-c", "/etc/supervisor.d/supervisord.ini" ]
